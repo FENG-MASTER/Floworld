@@ -9,12 +9,16 @@ import lombok.Getter;
  * 世界生成事件
  */
 public class WorldCreatedEvent extends BaseEvent{
+
+    public static EventType<WorldCreatedEvent> WORLD_CREATED_EVENT=new EventType<>(EventType.ROOT,"WorldCreatedEvent");
+
+
     @Getter
     private World world;
 
 
     public WorldCreatedEvent(World world) {
-        super(EventCenter.TYPE.WORLD_CREATED_EVENT,world);
+        super(WORLD_CREATED_EVENT,world);
 
     }
 }

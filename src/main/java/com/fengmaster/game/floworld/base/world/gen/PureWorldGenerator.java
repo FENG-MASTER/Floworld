@@ -3,6 +3,7 @@ package com.fengmaster.game.floworld.base.world.gen;
 import cn.hutool.core.util.RandomUtil;
 import com.fengmaster.game.floworld.base.obj.BaseGameComponent;
 import com.fengmaster.game.floworld.base.obj.PhysicsComponent;
+import com.fengmaster.game.floworld.base.obj.entity.Fire;
 import com.fengmaster.game.floworld.base.obj.entity.Grass;
 import com.fengmaster.game.floworld.base.obj.entity.Soil;
 import com.fengmaster.game.floworld.base.obj.fluid.Oxygen;
@@ -70,15 +71,15 @@ public class PureWorldGenerator implements BaseWorldGenerator {
                 grass.setWorldName(world.getName());
 
 //
-//                if (RandomUtil.getRandom().nextInt(10) > 7) {
-//                    PhysicsComponent cobble = new Fire();
-//                    cobble.setCellCenter(new Point3D(x, y, 1));
-//                    emptyPoints.remove(new Point3D(x, y, 1));
-//                    List<BaseGameComponent> list = map.get(1l).get(x).getOrDefault(y, new ArrayList<>());
-//                    list.add(cobble);
-//                    map.get(1l).get(x).put(y, list);
-//                    cobble.setWorldName(world.getName());
-//                }
+                if (RandomUtil.getRandom().nextInt(10) > 7) {
+                    PhysicsComponent cobble = new Fire();
+                    cobble.setCellCenter(new Point3D(x, y, 1));
+                    emptyPoints.remove(new Point3D(x, y, 1));
+                    List<BaseGameComponent> list = map.get(1l).get(x).getOrDefault(y, new ArrayList<>());
+                    list.add(cobble);
+                    map.get(1l).get(x).put(y, list);
+                    cobble.setWorldName(world.getName());
+                }
             }
         }
 

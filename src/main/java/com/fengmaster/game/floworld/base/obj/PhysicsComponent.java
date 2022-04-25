@@ -76,6 +76,8 @@ public class PhysicsComponent extends BaseGameComponent {
 
     public void setCellCenter(Point3D cellCenter) {
         this.cellCenter = cellCenter;
-        this.setPosition(Game.getInstance().getGameOption().getCellSize()* cellCenter.getX(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getY());
+        this.setPosition3D(Game.getInstance().getGameOption().getCellSize()* cellCenter.getX(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getY(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getZ());
+        this.setZIndex(Math.toIntExact(cellCenter.getZ()));
+        //        this.setPosition(Game.getInstance().getGameOption().getCellSize()* cellCenter.getX(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getY());
     }
 }

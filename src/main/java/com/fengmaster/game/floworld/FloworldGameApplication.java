@@ -2,15 +2,25 @@ package com.fengmaster.game.floworld;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.app.scene.Camera3D;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.input.InputModifier;
+import com.almasb.fxgl.input.InputSequence;
+import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.localization.Language;
 import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.obj.BaseGameComponent;
 import javafx.geometry.Point2D;
+import javafx.scene.input.KeyCode;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.Map;
 
+import static com.almasb.fxgl.dsl.FXGL.*;
+
+@Log
 public class FloworldGameApplication extends GameApplication {
 
 
@@ -20,7 +30,7 @@ public class FloworldGameApplication extends GameApplication {
 
     private String worldName;
 
-    private int currentZ = 0;
+    private int currentZ = 1;
 
     private int commandWaitTime = 5;
 
@@ -35,20 +45,21 @@ public class FloworldGameApplication extends GameApplication {
 
     }
 
-
+    Entity entity;
     @Override
     protected void initGame() {
         Game.getInstance().init();
         worldName = "main";
 
+
+
 //        Game.getInstance().getEventCenter().getWorldEventBus(worldName).register(this);
 
 //
-//        FXGL.entityBuilder().at(new Point2D(50,50))
-//                .view(FXGL.getAssetLoader()
-//                        .loadTexture("obj/cobble1.png",10,10)).buildAndAttach();
-
-
+        entity= FXGL.entityBuilder().at(new Point2D(50, 50))
+                .view(FXGL.getAssetLoader()
+                        .loadTexture("obj/fire.png", 10, 10)).buildAndAttach();
+//        getGameScene().getViewport().bindToEntity(entity, getAppWidth() / 2, getAppHeight() / 2);
 //        for (Map.Entry<Long, Map<Long, Map<Long, List<BaseGameComponent>>>> entryZ : Game.getInstance().getWorld(worldName).getGameObjectMap().entrySet()) {
 //            if (entryZ.getKey() > currentZ) {
 //                continue;
@@ -93,6 +104,42 @@ public class FloworldGameApplication extends GameApplication {
 //
 //
 //        }
+
+
+    }
+
+    @Override
+    protected void onUpdate(double tpf) {
+        super.onUpdate(tpf);
+//        log.info("z:"+currentZ);
+    }
+
+    @Override
+    protected void initInput() {
+        FXGL.getInput().addAction(new UserAction("up level") {
+            @Override
+            protected void onActionEnd() {
+                currentZ+=1;
+                for (Entity entity1 : getGameWorld().getEntities()) {
+                        entity1.setVisible(!((entity1.getZ()/20)>=currentZ));
+                }
+        log.info("z:"+currentZ);
+
+            }
+        },KeyCode.S);
+
+        FXGL.getInput().addAction(new UserAction("up level1") {
+            @Override
+            protected void onActionEnd() {
+                currentZ-=1;
+                for (Entity entity1 : getGameWorld().getEntities()) {
+                    entity1.setVisible(!((entity1.getZ()/20)>=currentZ));
+
+                }
+                        log.info("z:"+currentZ);
+
+            }
+        },KeyCode.W);
 
 
     }

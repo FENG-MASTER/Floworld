@@ -34,9 +34,10 @@ public class Fire extends PhysicsComponent {
         this.setName("Fire");
         this.setVolume(0.001);
         DisplayComponent displayComponent=new RandomDisplayComponent();
-        displayComponent.addTexture("fire");
-        displayComponent.setAlpha(this.getVolume());
         addComponent(AttributeKeyEnum.TEXTURE.name(),displayComponent);
+
+        displayComponent.addTexture("obj/fire.png");
+        displayComponent.setAlpha(this.getVolume());
     }
 
     public void setSpread(double spread){
