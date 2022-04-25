@@ -71,7 +71,7 @@ public class PureWorldGenerator implements BaseWorldGenerator {
                 grass.setWorldName(world.getName());
 
                 if (RandomUtil.getRandom().nextInt(100) > 96) {
-                    PhysicsEntity cobble = new Fire(RandomUtil.randomInt(100));
+                    PhysicsEntity cobble = new Fire(300);
                     cobble.setCellCenter(new Point3D(x, y, 0));
                     List<BaseGameEntity> list = map.get(0l).get(x).getOrDefault(y, new ArrayList<>());
                     list.add(cobble);

@@ -15,6 +15,12 @@ public class Point3D {
 
 
     @Override
+    public Object clone() throws CloneNotSupportedException {
+        Point3D point3D = new Point3D(x,y,z);
+        return point3D;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

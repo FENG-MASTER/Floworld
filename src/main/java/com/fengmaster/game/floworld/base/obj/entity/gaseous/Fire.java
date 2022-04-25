@@ -1,14 +1,18 @@
 package com.fengmaster.game.floworld.base.obj.entity.gaseous;
 
+import cn.hutool.core.util.RandomUtil;
 import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.event.TickEvent;
 import com.fengmaster.game.floworld.base.obj.compoents.ability.Combustible;
 import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
 import com.fengmaster.game.floworld.base.obj.entity.fluid.Oxygen;
+import com.fengmaster.game.floworld.base.world.Point3D;
+import com.fengmaster.game.floworld.base.world.World;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import com.fengmaster.game.floworld.base.Game;
 
+import com.fengmaster.game.floworld.util.CellUtil;
 import com.fengmaster.game.floworld.util.GameTimeUtil;
 import javafx.event.EventHandler;
 import lombok.Getter;
@@ -68,8 +72,20 @@ public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
 
 
         if (spread>=1){
-            //开始扩撒,向四周八个格子扩散，生成小火种
-//            timeLeft-= GameTimeUtil.tick2Sec(tickEvent.getTime()-lastTick);
+            //开始扩撒,向四周6个格子扩散，生成小火种
+
+            Point3D[] nearbyPoint = CellUtil.getNearbyPoint(getCellCenter());
+            World world = Game.getInstance().getWorld(getWorldName());
+            for (Point3D np : nearbyPoint) {
+                if (!CellUtil.mapContain(np,world.getLength(),world.getWidth(),world.getHeight())){
+                    continue;
+                }
+                PhysicsEntity fire = new Fire(RandomUtil.randomInt(100));
+                fire.setCellCenter(np);
+                fire.setWorldName(this.getWorldName());
+                world.addEntity(fire);
+            }
+            spread=0;
 
         }else {
             //检查是否可以增大火势
@@ -104,8 +120,8 @@ public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
         }
 
         timeLeft-= GameTimeUtil.tick2Sec(tickEvent.getTime()-lastTick);
-
-
+        spread+=0.05;
+        lastTick=tickEvent.getTime();
         if (timeLeft<=0){
             removeFromWorld();
             return;

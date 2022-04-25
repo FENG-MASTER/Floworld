@@ -25,8 +25,11 @@ public class World {
     @Getter
     private String name ;
 
+    @Getter
     private long length=10;
+    @Getter
     private long width=10;
+    @Getter
     private long height=10;
 
     @Getter
@@ -78,6 +81,14 @@ public class World {
 
     public WorldNode getWorldNode(Point3D point3D){
         return worldNodeMap.get(point3D.getZ()).get(point3D.getX()).get(point3D.getY());
+    }
+
+
+    public void addEntity(BaseGameEntity baseGameEntity){
+        gameObjectMap.get(baseGameEntity.getCellCenter().getZ())
+                .get(baseGameEntity.getCellCenter().getX())
+                .get(baseGameEntity.getCellCenter().getY())
+                .add(baseGameEntity);
     }
 
 }
