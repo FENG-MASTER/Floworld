@@ -1,12 +1,12 @@
 package com.fengmaster.game.floworld.base.world.gen;
 
 import cn.hutool.core.util.RandomUtil;
-import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
-import com.fengmaster.game.floworld.base.obj.PhysicsEntity;
-import com.fengmaster.game.floworld.base.obj.entity.Fire;
-import com.fengmaster.game.floworld.base.obj.entity.Grass;
-import com.fengmaster.game.floworld.base.obj.entity.Soil;
-import com.fengmaster.game.floworld.base.obj.fluid.Oxygen;
+import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
+import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
+import com.fengmaster.game.floworld.base.obj.entity.gaseous.Fire;
+import com.fengmaster.game.floworld.base.obj.entity.solid.Grass;
+import com.fengmaster.game.floworld.base.obj.entity.solid.Soil;
+import com.fengmaster.game.floworld.base.obj.entity.fluid.Oxygen;
 import com.fengmaster.game.floworld.base.world.Point3D;
 import com.fengmaster.game.floworld.base.world.World;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;

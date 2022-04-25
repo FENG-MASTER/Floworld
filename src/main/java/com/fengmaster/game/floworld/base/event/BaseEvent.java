@@ -12,7 +12,7 @@ public abstract class BaseEvent extends javafx.event.Event{
     private Object sender;
 
     public BaseEvent(EventType eventType, Object sender) {
-        super(EventType.ROOT);
+        super(eventType);
         this.sender=sender;
     }
 

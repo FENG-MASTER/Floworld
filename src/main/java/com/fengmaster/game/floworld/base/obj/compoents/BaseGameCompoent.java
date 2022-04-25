@@ -1,7 +1,7 @@
 package com.fengmaster.game.floworld.base.obj.compoents;
 
 import com.almasb.fxgl.entity.component.Component;
-import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
+import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import lombok.Getter;
 import lombok.Setter;
 

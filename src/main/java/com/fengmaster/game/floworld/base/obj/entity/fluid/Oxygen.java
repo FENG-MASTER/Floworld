@@ -1,6 +1,6 @@
-package com.fengmaster.game.floworld.base.obj.fluid;
+package com.fengmaster.game.floworld.base.obj.entity.fluid;
 
-import com.fengmaster.game.floworld.base.obj.PhysicsEntity;
+import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
 
 /**
  * 氧气

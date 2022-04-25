@@ -1,6 +1,6 @@
 package com.fengmaster.game.floworld.base.world.gen;
 
-import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
+import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import com.fengmaster.game.floworld.base.world.World;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 

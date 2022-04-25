@@ -1,4 +1,4 @@
-package com.fengmaster.game.floworld.base.obj;
+package com.fengmaster.game.floworld.base.obj.entity;
 
 
 import com.almasb.fxgl.dsl.FXGL;

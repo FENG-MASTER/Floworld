@@ -1,9 +1,8 @@
-package com.fengmaster.game.floworld.base.obj.ability;
+package com.fengmaster.game.floworld.base.obj.compoents.ability;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.event.TickEvent;
-import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
 import com.fengmaster.game.floworld.base.obj.compoents.BaseGameCompoent;
 import javafx.event.EventHandler;
 import lombok.Getter;

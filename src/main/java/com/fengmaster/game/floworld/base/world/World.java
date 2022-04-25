@@ -6,7 +6,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.TimeCenter;
 import com.fengmaster.game.floworld.base.event.TickEvent;
 import com.fengmaster.game.floworld.base.event.WorldCreatedEvent;
-import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
+import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import com.fengmaster.game.floworld.base.world.gen.BaseWorldGenerator;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import lombok.Getter;

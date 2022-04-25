@@ -1,6 +1,6 @@
-package com.fengmaster.game.floworld.base.obj.entity;
+package com.fengmaster.game.floworld.base.obj.entity.solid;
 
-import com.fengmaster.game.floworld.base.obj.PhysicsEntity;
+import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
 
 /**
  * 石子

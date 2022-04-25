@@ -1,7 +1,7 @@
-package com.fengmaster.game.floworld.base.obj.entity;
+package com.fengmaster.game.floworld.base.obj.entity.solid;
 
 import cn.hutool.core.util.RandomUtil;
-import com.fengmaster.game.floworld.base.obj.PhysicsEntity;
+import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
 
 public class Grass extends PhysicsEntity {
 

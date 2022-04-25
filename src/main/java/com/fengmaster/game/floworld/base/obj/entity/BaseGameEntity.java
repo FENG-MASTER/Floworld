@@ -1,4 +1,4 @@
-package com.fengmaster.game.floworld.base.obj;
+package com.fengmaster.game.floworld.base.obj.entity;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
@@ -6,12 +6,8 @@ import com.almasb.fxgl.entity.component.ComponentListener;
 import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.obj.compoents.BaseGameCompoent;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * 游戏对象基类

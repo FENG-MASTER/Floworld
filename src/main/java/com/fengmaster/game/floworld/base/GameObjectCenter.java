@@ -1,7 +1,7 @@
 package com.fengmaster.game.floworld.base;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
+import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import lombok.Getter;
 
 import java.util.HashMap;

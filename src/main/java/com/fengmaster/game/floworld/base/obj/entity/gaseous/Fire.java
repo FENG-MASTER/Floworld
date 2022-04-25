@@ -1,14 +1,15 @@
-package com.fengmaster.game.floworld.base.obj.entity;
+package com.fengmaster.game.floworld.base.obj.entity.gaseous;
 
-import com.fengmaster.game.floworld.base.constant.AttributeKeyEnum;
+import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.event.TickEvent;
-import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
-import com.fengmaster.game.floworld.base.obj.PhysicsEntity;
-import com.fengmaster.game.floworld.base.obj.ability.Combustible;
-import com.fengmaster.game.floworld.base.obj.fluid.Oxygen;
+import com.fengmaster.game.floworld.base.obj.compoents.ability.Combustible;
+import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
+import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
+import com.fengmaster.game.floworld.base.obj.entity.fluid.Oxygen;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import com.fengmaster.game.floworld.base.Game;
 
+import javafx.event.EventHandler;
 import lombok.Getter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * 火
  */
-public class Fire extends PhysicsEntity {
+public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
 
     /**
      * 火势情况
@@ -32,6 +33,9 @@ public class Fire extends PhysicsEntity {
         this.setName("Fire");
         this.setVolume(0.001);
         setTexture("obj/fire.png");
+
+        FXGL.getEventBus().addEventHandler(TickEvent.TICK_EVENT,this);
+
     }
 
     public void setSpread(double spread){
@@ -39,8 +43,7 @@ public class Fire extends PhysicsEntity {
         this.setVolume(spread);
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void tick(TickEvent tickEvent){
+    private void tick(TickEvent tickEvent){
         if (spread>=1){
             //开始扩撒,向四周八个格子扩散，生成小火种
 
@@ -76,4 +79,8 @@ public class Fire extends PhysicsEntity {
     }
 
 
+    @Override
+    public void handle(TickEvent event) {
+        tick(event);
+    }
 }
