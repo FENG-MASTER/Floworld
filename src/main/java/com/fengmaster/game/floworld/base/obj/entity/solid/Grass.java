@@ -1,6 +1,7 @@
 package com.fengmaster.game.floworld.base.obj.entity.solid;
 
 import cn.hutool.core.util.RandomUtil;
+import com.fengmaster.game.floworld.base.obj.compoents.ability.Combustible;
 import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
 
 public class Grass extends PhysicsEntity {
@@ -14,6 +15,7 @@ public class Grass extends PhysicsEntity {
         }else {
             setTexture("obj/grass2.png");
         }
+        addComponent(new Combustible(40,100,800000));
     }
 
 

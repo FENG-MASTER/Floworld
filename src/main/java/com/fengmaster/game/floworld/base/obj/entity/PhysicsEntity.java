@@ -58,6 +58,16 @@ public class PhysicsEntity extends BaseGameEntity {
     @Getter
     private boolean ignoreGravityEffect;
 
+
+
+    /**
+     * 比热容 是指没有相变化和化学变化时，1kg均相物质温度升高1K所需的热量
+     *
+     * 默认是水的比热容
+     */
+    @Getter
+    private int specificHeatCapacity=4200;
+
     public PhysicsEntity(){
         relativeBody=new Point3D[1];
         relativeBody[0]=new Point3D(0,0,0);

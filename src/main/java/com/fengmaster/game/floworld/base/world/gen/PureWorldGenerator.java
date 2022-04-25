@@ -70,14 +70,12 @@ public class PureWorldGenerator implements BaseWorldGenerator {
                 map.get(0l).get(x).put(y, list1);
                 grass.setWorldName(world.getName());
 
-//
-                if (RandomUtil.getRandom().nextInt(10) > 7) {
-                    PhysicsEntity cobble = new Fire();
-                    cobble.setCellCenter(new Point3D(x, y, 1));
-                    emptyPoints.remove(new Point3D(x, y, 1));
-                    List<BaseGameEntity> list = map.get(1l).get(x).getOrDefault(y, new ArrayList<>());
+                if (RandomUtil.getRandom().nextInt(100) > 96) {
+                    PhysicsEntity cobble = new Fire(RandomUtil.randomInt(100));
+                    cobble.setCellCenter(new Point3D(x, y, 0));
+                    List<BaseGameEntity> list = map.get(0l).get(x).getOrDefault(y, new ArrayList<>());
                     list.add(cobble);
-                    map.get(1l).get(x).put(y, list);
+                    map.get(0l).get(x).put(y, list);
                     cobble.setWorldName(world.getName());
                 }
             }

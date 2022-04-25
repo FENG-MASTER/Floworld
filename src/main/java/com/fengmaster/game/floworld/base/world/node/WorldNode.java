@@ -17,5 +17,9 @@ public  class WorldNode {
     private double humidity;
     private double light;
 
+    public void addTemperature(double temperature){
+        this.temperature+=temperature;
+    }
+
 
 }

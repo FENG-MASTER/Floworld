@@ -9,6 +9,7 @@ import com.fengmaster.game.floworld.base.obj.entity.fluid.Oxygen;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import com.fengmaster.game.floworld.base.Game;
 
+import com.fengmaster.game.floworld.util.GameTimeUtil;
 import javafx.event.EventHandler;
 import lombok.Getter;
 import org.greenrobot.eventbus.Subscribe;
@@ -19,8 +20,22 @@ import java.util.stream.Collectors;
 
 /**
  * 火
+ *
+ * 火只负责点燃可燃物，燃烧实际代码在可燃物内
  */
 public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
+
+    /**
+     * 持续时间 s
+     */
+    private int duration;
+
+    /**
+     * 剩余燃烧时间 s
+     */
+    private int timeLeft;
+
+    private long lastTick;
 
     /**
      * 火势情况
@@ -28,8 +43,10 @@ public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
     @Getter
     private double spread;
 
-    public Fire() {
+    public Fire(int duration) {
         //小火焰
+        this.duration=duration;
+        this.timeLeft=duration;
         this.setName("Fire");
         this.setVolume(0.001);
         setTexture("obj/fire.png");
@@ -44,8 +61,15 @@ public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
     }
 
     private void tick(TickEvent tickEvent){
+        if (lastTick==0){
+            lastTick=tickEvent.getTime();
+        }
+
+
+
         if (spread>=1){
             //开始扩撒,向四周八个格子扩散，生成小火种
+//            timeLeft-= GameTimeUtil.tick2Sec(tickEvent.getTime()-lastTick);
 
         }else {
             //检查是否可以增大火势
@@ -59,20 +83,32 @@ public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
                 if (gameEntity.hasComponent(Combustible.class)){
                     //物品属于可燃物
                     Combustible combustible = gameEntity.getComponent(Combustible.class);
-                    if(combustible.isBurning() ){
-                            //可燃物，并且已经着了
-//                        if (CollectionUtil.isNotEmpty(oxygens)||oxygens.stream().map(new Func).count()<=0){
-//                            //一点氧气都没用了
-//                            combustible.unBurn();
-//                        }
-
+                    if(combustible.isBurning()){
+                        //可燃物已经点燃的逻辑代码在可燃物里视线
+                        return;
                     }else if(combustible.getBurnPoint()<worldNode.getTemperature()) {
                             //没有点着，但是温度已经达到燃点
-
+                            combustible.burn();
                     }
+
+
+                    //没有点燃可燃物，则让温度上升，这样才能点燃可燃物
+                    worldNode.addTemperature(0.5);
+
+
+
 
                 }
             }
+
+        }
+
+        timeLeft-= GameTimeUtil.tick2Sec(tickEvent.getTime()-lastTick);
+
+
+        if (timeLeft<=0){
+            removeFromWorld();
+            return;
 
         }
 
