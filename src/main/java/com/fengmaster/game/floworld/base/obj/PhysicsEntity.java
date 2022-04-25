@@ -1,6 +1,7 @@
 package com.fengmaster.game.floworld.base.obj;
 
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.world.Point3D;
 import com.fengmaster.game.floworld.base.world.Vector3D;
@@ -10,7 +11,7 @@ import lombok.Setter;
 /**
  * 物理对象
  */
-public class PhysicsComponent extends BaseGameComponent {
+public class PhysicsEntity extends BaseGameEntity {
 
     /**
      * 位置
@@ -57,7 +58,7 @@ public class PhysicsComponent extends BaseGameComponent {
     @Getter
     private boolean ignoreGravityEffect;
 
-    public PhysicsComponent(){
+    public PhysicsEntity(){
         relativeBody=new Point3D[1];
         relativeBody[0]=new Point3D(0,0,0);
     }
@@ -79,5 +80,9 @@ public class PhysicsComponent extends BaseGameComponent {
         this.setPosition3D(Game.getInstance().getGameOption().getCellSize()* cellCenter.getX(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getY(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getZ());
         this.setZIndex(Math.toIntExact(cellCenter.getZ()));
         //        this.setPosition(Game.getInstance().getGameOption().getCellSize()* cellCenter.getX(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getY());
+    }
+
+    public void setTexture(String texture){
+        this.getViewComponent().addChild(FXGL.getAssetLoader().loadTexture(texture,20,20));
     }
 }

@@ -3,16 +3,14 @@ package com.fengmaster.game.floworld.base.world;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import com.almasb.fxgl.dsl.FXGL;
-import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.TimeCenter;
 import com.fengmaster.game.floworld.base.event.TickEvent;
 import com.fengmaster.game.floworld.base.event.WorldCreatedEvent;
-import com.fengmaster.game.floworld.base.obj.BaseGameComponent;
+import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
 import com.fengmaster.game.floworld.base.world.gen.BaseWorldGenerator;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import lombok.Getter;
 import lombok.extern.java.Log;
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +39,7 @@ public class World {
 
     //  z,x,y地图
     @Getter
-    private Map<Long,Map<Long,Map<Long, List<BaseGameComponent>>>> gameObjectMap =new HashMap<>();
+    private Map<Long,Map<Long,Map<Long, List<BaseGameEntity>>>> gameObjectMap =new HashMap<>();
 
 
     public World(String name ,BaseWorldGenerator worldGenerator){
@@ -70,11 +68,11 @@ public class World {
     }
 
 
-    public List<BaseGameComponent> getWorldObject(long x, long y, long z){
+    public List<BaseGameEntity> getWorldObject(long x, long y, long z){
         return gameObjectMap.get(z).get(x).get(y);
     }
 
-    public List<BaseGameComponent> getWorldObject(Point3D point3D){
+    public List<BaseGameEntity> getWorldObject(Point3D point3D){
         return gameObjectMap.get(point3D.getZ()).get(point3D.getX()).get(point3D.getY());
     }
 

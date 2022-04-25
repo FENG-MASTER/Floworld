@@ -2,11 +2,9 @@ package com.fengmaster.game.floworld.base.obj.entity;
 
 import com.fengmaster.game.floworld.base.constant.AttributeKeyEnum;
 import com.fengmaster.game.floworld.base.event.TickEvent;
-import com.fengmaster.game.floworld.base.obj.BaseGameComponent;
-import com.fengmaster.game.floworld.base.obj.PhysicsComponent;
+import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
+import com.fengmaster.game.floworld.base.obj.PhysicsEntity;
 import com.fengmaster.game.floworld.base.obj.ability.Combustible;
-import com.fengmaster.game.floworld.base.obj.display.DisplayComponent;
-import com.fengmaster.game.floworld.base.obj.display.RandomDisplayComponent;
 import com.fengmaster.game.floworld.base.obj.fluid.Oxygen;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import com.fengmaster.game.floworld.base.Game;
@@ -21,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * 火
  */
-public class Fire extends PhysicsComponent {
+public class Fire extends PhysicsEntity {
 
     /**
      * 火势情况
@@ -33,11 +31,7 @@ public class Fire extends PhysicsComponent {
         //小火焰
         this.setName("Fire");
         this.setVolume(0.001);
-        DisplayComponent displayComponent=new RandomDisplayComponent();
-        addComponent(AttributeKeyEnum.TEXTURE.name(),displayComponent);
-
-        displayComponent.addTexture("obj/fire.png");
-        displayComponent.setAlpha(this.getVolume());
+        setTexture("obj/fire.png");
     }
 
     public void setSpread(double spread){
@@ -52,16 +46,16 @@ public class Fire extends PhysicsComponent {
 
         }else {
             //检查是否可以增大火势
-            List<BaseGameComponent> centerCellObjs = Game.getInstance().getWorld(getWorldName()).getWorldObject(getCellCenter());
+            List<BaseGameEntity> centerCellObjs = Game.getInstance().getWorld(getWorldName()).getWorldObject(getCellCenter());
             //氧气
             List<Oxygen> oxygens = centerCellObjs.stream().filter(baseGameComponent -> baseGameComponent instanceof Oxygen)
                     .map(baseGameComponent -> (Oxygen) baseGameComponent).collect(Collectors.toList());
 
             WorldNode worldNode = Game.getInstance().getWorld(getWorldName()).getWorldNode(this.getCellCenter());
-            for (BaseGameComponent gameComponent : centerCellObjs) {
-                if (gameComponent.containsComponent(AttributeKeyEnum.COMBUSTIBLE.name())){
+            for (BaseGameEntity gameEntity : centerCellObjs) {
+                if (gameEntity.hasComponent(Combustible.class)){
                     //物品属于可燃物
-                    Combustible combustible = gameComponent.getComponent(AttributeKeyEnum.COMBUSTIBLE.name(), Combustible.class).get(0);
+                    Combustible combustible = gameEntity.getComponent(Combustible.class);
                     if(combustible.isBurning() ){
                             //可燃物，并且已经着了
 //                        if (CollectionUtil.isNotEmpty(oxygens)||oxygens.stream().map(new Func).count()<=0){
@@ -81,8 +75,5 @@ public class Fire extends PhysicsComponent {
 
     }
 
-    @Override
-    public boolean needRegisterWorldListener() {
-        return true;
-    }
+
 }

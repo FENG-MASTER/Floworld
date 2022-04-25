@@ -1,6 +1,6 @@
 package com.fengmaster.game.floworld.base.obj;
 
-public class RigidBody extends PhysicsComponent {
+public class RigidBody extends PhysicsEntity {
 
 
 }

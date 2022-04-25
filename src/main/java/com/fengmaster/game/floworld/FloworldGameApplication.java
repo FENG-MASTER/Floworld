@@ -2,21 +2,13 @@ package com.fengmaster.game.floworld;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.scene.Camera3D;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.input.InputModifier;
-import com.almasb.fxgl.input.InputSequence;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.localization.Language;
 import com.fengmaster.game.floworld.base.Game;
-import com.fengmaster.game.floworld.base.obj.BaseGameComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import lombok.extern.java.Log;
-
-import java.util.List;
-import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -45,7 +37,6 @@ public class FloworldGameApplication extends GameApplication {
 
     }
 
-    Entity entity;
     @Override
     protected void initGame() {
         Game.getInstance().init();
@@ -56,32 +47,29 @@ public class FloworldGameApplication extends GameApplication {
 //        Game.getInstance().getEventCenter().getWorldEventBus(worldName).register(this);
 
 //
-        entity= FXGL.entityBuilder().at(new Point2D(50, 50))
-                .view(FXGL.getAssetLoader()
-                        .loadTexture("obj/fire.png", 10, 10)).buildAndAttach();
+
 //        getGameScene().getViewport().bindToEntity(entity, getAppWidth() / 2, getAppHeight() / 2);
-//        for (Map.Entry<Long, Map<Long, Map<Long, List<BaseGameComponent>>>> entryZ : Game.getInstance().getWorld(worldName).getGameObjectMap().entrySet()) {
+//        for (Map.Entry<Long, Map<Long, Map<Long, List<BaseGameEntity>>>> entryZ : Game.getInstance().getWorld(worldName).getGameObjectMap().entrySet()) {
 //            if (entryZ.getKey() > currentZ) {
 //                continue;
 //            }
 //
 //            Long z = entryZ.getKey();
-//            for (Map.Entry<Long, Map<Long, List<BaseGameComponent>>> entryX : entryZ.getValue().entrySet()) {
+//            for (Map.Entry<Long, Map<Long, List<BaseGameEntity>>> entryX : entryZ.getValue().entrySet()) {
 //                Long x = entryX.getKey();
-//                for (Map.Entry<Long, List<BaseGameComponent>> entryY : entryX.getValue().entrySet()) {
+//                for (Map.Entry<Long, List<BaseGameEntity>> entryY : entryX.getValue().entrySet()) {
 //                    Long y = entryY.getKey();
 //
-//                    for (BaseGameComponent gameComponent : entryY.getValue()) {
+//                    for (BaseGameEntity gameComponent : entryY.getValue()) {
 //                        if (!gameComponent.containsComponent(AttributeKeyEnum.TEXTURE.name()) || !gameComponent.getWorldName().equals(worldName)){
 //                            continue;
 //                        }
 //
-//                        DisplayComponent displayComponent = gameComponent.getComponent(AttributeKeyEnum.TEXTURE.name(), DisplayComponent.class).get(0);
 //
-//                        if ( !(gameComponent instanceof PhysicsComponent)){
+//                        if ( !(gameComponent instanceof PhysicsEntity)){
 //                            continue;
 //                        }
-//                        Point3D point3D = ((PhysicsComponent)(gameComponent)).getCenter();
+//                        Point3D point3D = ((PhysicsEntity)(gameComponent)).getCenter();
 //
 //                        if (guiCam.unproject(new Vector3(point3D.getX() * 20, point3D.getY() * 20, 0)).x > 0
 //                                && guiCam.unproject(new Vector3(point3D.getX() * 20, point3D.getY() * 20, 0)).x < 480
@@ -134,9 +122,8 @@ public class FloworldGameApplication extends GameApplication {
                 currentZ-=1;
                 for (Entity entity1 : getGameWorld().getEntities()) {
                     entity1.setVisible(!((entity1.getZ()/20)>=currentZ));
-
                 }
-                        log.info("z:"+currentZ);
+                    log.info("z:"+currentZ);
 
             }
         },KeyCode.W);

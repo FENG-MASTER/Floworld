@@ -1,16 +1,17 @@
 package com.fengmaster.game.floworld.base.obj.ability;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.event.TickEvent;
-import com.fengmaster.game.floworld.base.obj.BaseGameComponent;
+import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
+import com.fengmaster.game.floworld.base.obj.compoents.BaseGameCompoent;
+import javafx.event.EventHandler;
 import lombok.Getter;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * 可燃的
  */
-public class Combustible extends BaseGameComponent {
+public class Combustible extends BaseGameCompoent implements  EventHandler<TickEvent>{
 
     /**
      * 燃点
@@ -42,18 +43,7 @@ public class Combustible extends BaseGameComponent {
     public Combustible(double burnPoint,double burnTime){
         this.burnPoint=burnPoint;
         this.burnTime=burnTime;
-    }
-
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void tick(TickEvent tickEvent){
-        if (isBurning){
-            long burnTime = tickEvent.getTime() - lastBurnTime;
-            remainingBurnTime-=burnTime;
-            if(remainingBurnTime<0){
-                //烧完了，游戏物体销毁
-                getParentGameObject().destroy();
-            }
-        }
+        FXGL.getEventBus().addEventHandler(TickEvent.TICK_EVENT,this);
     }
 
 
@@ -61,7 +51,8 @@ public class Combustible extends BaseGameComponent {
      * 燃烧
      */
     public void burn(){
-        lastBurnTime = Game.getInstance().getWorld(getWorldName()).getTimeCenter().getTime();
+
+        lastBurnTime = Game.getInstance().getWorld(getParentGameEntity().getWorldName()).getTimeCenter().getTime();
         isBurning=true;
     }
 
@@ -72,8 +63,16 @@ public class Combustible extends BaseGameComponent {
     }
 
 
+
     @Override
-    public boolean needRegisterWorldListener() {
-        return true;
+    public void handle(TickEvent tickEvent) {
+        if (isBurning){
+            long burnTime = tickEvent.getTime() - lastBurnTime;
+            remainingBurnTime-=burnTime;
+            if(remainingBurnTime<0){
+                //烧完了，游戏物体销毁
+                this.getParentGameEntity().removeFromWorld();
+            }
+        }
     }
 }

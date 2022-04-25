@@ -1,8 +1,8 @@
 package com.fengmaster.game.floworld.base.world.gen;
 
 import cn.hutool.core.util.RandomUtil;
-import com.fengmaster.game.floworld.base.obj.BaseGameComponent;
-import com.fengmaster.game.floworld.base.obj.PhysicsComponent;
+import com.fengmaster.game.floworld.base.obj.BaseGameEntity;
+import com.fengmaster.game.floworld.base.obj.PhysicsEntity;
 import com.fengmaster.game.floworld.base.obj.entity.Fire;
 import com.fengmaster.game.floworld.base.obj.entity.Grass;
 import com.fengmaster.game.floworld.base.obj.entity.Soil;
@@ -27,7 +27,7 @@ public class PureWorldGenerator implements BaseWorldGenerator {
     private long height = 10;
 
     @Override
-    public Map<Long, Map<Long, Map<Long, List<BaseGameComponent>>>> generateObj(World world) {
+    public Map<Long, Map<Long, Map<Long, List<BaseGameEntity>>>> generateObj(World world) {
 
         List<Point3D> emptyPoints = new ArrayList<>();
 
@@ -41,7 +41,7 @@ public class PureWorldGenerator implements BaseWorldGenerator {
         }
 
 
-        Map<Long, Map<Long, Map<Long, List<BaseGameComponent>>>> map = new HashMap<>();
+        Map<Long, Map<Long, Map<Long, List<BaseGameEntity>>>> map = new HashMap<>();
         for (long z = 0; z < height; z++) {
             map.put(z, new HashMap<>());
             for (long x = 0; x < length; x++) {
@@ -57,7 +57,7 @@ public class PureWorldGenerator implements BaseWorldGenerator {
 
         for (long y = 0; y < width; y++) {
             for (long x = 0; x < length; x++) {
-                PhysicsComponent grass;
+                PhysicsEntity grass;
                 if (RandomUtil.getRandom().nextInt(10) > 7) {
                     grass = new Grass();
                 } else {
@@ -65,17 +65,17 @@ public class PureWorldGenerator implements BaseWorldGenerator {
                 }
                 emptyPoints.remove(new Point3D(x, y, 0));
                 grass.setCellCenter(new Point3D(x, y, 0));
-                List<BaseGameComponent> list1 = map.get(0l).get(x).getOrDefault(y, new ArrayList<>());
+                List<BaseGameEntity> list1 = map.get(0l).get(x).getOrDefault(y, new ArrayList<>());
                 list1.add(grass);
                 map.get(0l).get(x).put(y, list1);
                 grass.setWorldName(world.getName());
 
 //
                 if (RandomUtil.getRandom().nextInt(10) > 7) {
-                    PhysicsComponent cobble = new Fire();
+                    PhysicsEntity cobble = new Fire();
                     cobble.setCellCenter(new Point3D(x, y, 1));
                     emptyPoints.remove(new Point3D(x, y, 1));
-                    List<BaseGameComponent> list = map.get(1l).get(x).getOrDefault(y, new ArrayList<>());
+                    List<BaseGameEntity> list = map.get(1l).get(x).getOrDefault(y, new ArrayList<>());
                     list.add(cobble);
                     map.get(1l).get(x).put(y, list);
                     cobble.setWorldName(world.getName());
@@ -91,7 +91,7 @@ public class PureWorldGenerator implements BaseWorldGenerator {
             Oxygen oxygen = new Oxygen();
             oxygen.setCellCenter(emptyPoint);
             oxygen.setWorldName(world.getName());
-            List<BaseGameComponent> list = map.get(emptyPoint.getZ()).get(emptyPoint.getX()).getOrDefault(emptyPoint.getY(), new ArrayList<>());
+            List<BaseGameEntity> list = map.get(emptyPoint.getZ()).get(emptyPoint.getX()).getOrDefault(emptyPoint.getY(), new ArrayList<>());
             list.add(oxygen);
             map.get(emptyPoint.getZ()).get(emptyPoint.getX()).put(emptyPoint.getY(), list);
 
@@ -100,14 +100,14 @@ public class PureWorldGenerator implements BaseWorldGenerator {
 
         String[][][] mapStr = new String[10][10][10];
 
-        for (Map.Entry<Long, Map<Long, Map<Long, List<BaseGameComponent>>>> longMapEntry1 : map.entrySet()) {
+        for (Map.Entry<Long, Map<Long, Map<Long, List<BaseGameEntity>>>> longMapEntry1 : map.entrySet()) {
 
-            for (Map.Entry<Long, Map<Long, List<BaseGameComponent>>> longMapEntry2 : longMapEntry1.getValue().entrySet()) {
-                for (Map.Entry<Long, List<BaseGameComponent>> longListEntry3 : longMapEntry2.getValue().entrySet()) {
-                    mapStr[Math.toIntExact(longMapEntry1.getKey())][Math.toIntExact(longMapEntry2.getKey())][Math.toIntExact(longListEntry3.getKey())] = longListEntry3.getValue().stream().map(new Function<BaseGameComponent, String>() {
+            for (Map.Entry<Long, Map<Long, List<BaseGameEntity>>> longMapEntry2 : longMapEntry1.getValue().entrySet()) {
+                for (Map.Entry<Long, List<BaseGameEntity>> longListEntry3 : longMapEntry2.getValue().entrySet()) {
+                    mapStr[Math.toIntExact(longMapEntry1.getKey())][Math.toIntExact(longMapEntry2.getKey())][Math.toIntExact(longListEntry3.getKey())] = longListEntry3.getValue().stream().map(new Function<BaseGameEntity, String>() {
                         @Override
-                        public String apply(BaseGameComponent baseGameComponent) {
-                            return baseGameComponent.getName() + "|";
+                        public String apply(BaseGameEntity baseGameEntity) {
+                            return baseGameEntity.getName() + "|";
                         }
                     }).collect(Collectors.joining());
                 }

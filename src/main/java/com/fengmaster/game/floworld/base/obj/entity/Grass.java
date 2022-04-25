@@ -1,25 +1,18 @@
 package com.fengmaster.game.floworld.base.obj.entity;
 
 import cn.hutool.core.util.RandomUtil;
-import com.fengmaster.game.floworld.base.constant.AttributeKeyEnum;
-import com.fengmaster.game.floworld.base.obj.PhysicsComponent;
-import com.fengmaster.game.floworld.base.obj.display.DisplayComponent;
-import com.fengmaster.game.floworld.base.obj.display.RandomDisplayComponent;
+import com.fengmaster.game.floworld.base.obj.PhysicsEntity;
 
-public class Grass extends PhysicsComponent {
+public class Grass extends PhysicsEntity {
 
     public Grass(){
         this.setName("Grass");
         this.setMass(3000);
         this.setVolume(1);
-        DisplayComponent displayComponent=new RandomDisplayComponent();
-        addComponent(AttributeKeyEnum.TEXTURE.name(),displayComponent);
-
         if (RandomUtil.getRandom().nextBoolean()){
-            displayComponent.addTexture("obj/grass1.png");
+            setTexture("obj/grass1.png");
         }else {
-            displayComponent.addTexture("obj/grass2.png");
-
+            setTexture("obj/grass2.png");
         }
     }
 

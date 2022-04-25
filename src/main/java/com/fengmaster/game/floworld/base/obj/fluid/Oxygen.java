@@ -1,11 +1,11 @@
 package com.fengmaster.game.floworld.base.obj.fluid;
 
-import com.fengmaster.game.floworld.base.obj.PhysicsComponent;
+import com.fengmaster.game.floworld.base.obj.PhysicsEntity;
 
 /**
  * 氧气
  */
-public class Oxygen extends PhysicsComponent {
+public class Oxygen extends PhysicsEntity {
 
     public Oxygen(){
         this.setName("Oxygen");
