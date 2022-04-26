@@ -8,6 +8,7 @@ import com.fengmaster.game.floworld.base.obj.entity.gaseous.Fire;
 import com.fengmaster.game.floworld.base.obj.entity.solid.Grass;
 import com.fengmaster.game.floworld.base.obj.entity.solid.Soil;
 import com.fengmaster.game.floworld.base.obj.entity.fluid.Oxygen;
+import com.fengmaster.game.floworld.base.obj.factory.BaseSpawnData;
 import com.fengmaster.game.floworld.base.world.CellWorld;
 import com.fengmaster.game.floworld.base.world.Point3D;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
@@ -58,19 +59,15 @@ public class PureWorldGenerator implements BaseWorldGenerator {
 
         for (long y = 0; y < width; y++) {
             for (long x = 0; x < length; x++) {
-                PhysicsEntity grass;
+
+
                 if (RandomUtil.getRandom().nextInt(10) > 7) {
-                    grass = new Grass();
+                    FXGL.getGameWorld().spawn("grass",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
                 } else {
-                    grass = new Soil();
+                    FXGL.getGameWorld().spawn("soil",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
                 }
                 emptyPoints.remove(new Point3D(x, y, 0));
-                grass.setCellCenter(new Point3D(x, y, 0));
-                List<BaseGameEntity> list1 = map.get(0l).get(x).getOrDefault(y, new ArrayList<>());
-                list1.add(grass);
-                map.get(0l).get(x).put(y, list1);
-                grass.setWorldName(cellWorld.getName());
-                FXGL.getGameWorld().addEntity(grass);
+
 
                 if (RandomUtil.getRandom().nextInt(100) > 96) {
                     PhysicsEntity cobble = new Fire(300);

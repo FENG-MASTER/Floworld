@@ -5,6 +5,17 @@ import lombok.SneakyThrows;
 
 public class CellUtil {
 
+
+    public static javafx.geometry.Point3D getPoint3D(Point3D cellPoint3D){
+        return new javafx.geometry.Point3D(cellPoint3D.getX()*20,cellPoint3D.getY()*20,cellPoint3D.getZ()*20);
+    }
+
+    public static com.fengmaster.game.floworld.base.world.Point3D getCellPoint3D( javafx.geometry.Point3D point3D){
+        return new Point3D((long)(point3D.getX()/20)
+                ,(long)(point3D.getY()/20)
+                ,(long)(point3D.getZ()/20));
+    }
+
     /**
      * 获取上下左右的相邻点
      * @param point
