@@ -1,14 +1,15 @@
 package com.fengmaster.game.floworld.base.world.gen;
 
 import cn.hutool.core.util.RandomUtil;
+import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
 import com.fengmaster.game.floworld.base.obj.entity.gaseous.Fire;
 import com.fengmaster.game.floworld.base.obj.entity.solid.Grass;
 import com.fengmaster.game.floworld.base.obj.entity.solid.Soil;
 import com.fengmaster.game.floworld.base.obj.entity.fluid.Oxygen;
+import com.fengmaster.game.floworld.base.world.CellWorld;
 import com.fengmaster.game.floworld.base.world.Point3D;
-import com.fengmaster.game.floworld.base.world.World;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import lombok.extern.java.Log;
 
@@ -27,7 +28,7 @@ public class PureWorldGenerator implements BaseWorldGenerator {
     private long height = 10;
 
     @Override
-    public Map<Long, Map<Long, Map<Long, List<BaseGameEntity>>>> generateObj(World world) {
+    public void generateObj(CellWorld cellWorld) {
 
         List<Point3D> emptyPoints = new ArrayList<>();
 
@@ -68,7 +69,8 @@ public class PureWorldGenerator implements BaseWorldGenerator {
                 List<BaseGameEntity> list1 = map.get(0l).get(x).getOrDefault(y, new ArrayList<>());
                 list1.add(grass);
                 map.get(0l).get(x).put(y, list1);
-                grass.setWorldName(world.getName());
+                grass.setWorldName(cellWorld.getName());
+                FXGL.getGameWorld().addEntity(grass);
 
                 if (RandomUtil.getRandom().nextInt(100) > 96) {
                     PhysicsEntity cobble = new Fire(300);
@@ -76,7 +78,9 @@ public class PureWorldGenerator implements BaseWorldGenerator {
                     List<BaseGameEntity> list = map.get(0l).get(x).getOrDefault(y, new ArrayList<>());
                     list.add(cobble);
                     map.get(0l).get(x).put(y, list);
-                    cobble.setWorldName(world.getName());
+                    cobble.setWorldName(cellWorld.getName());
+                    FXGL.getGameWorld().addEntity(cobble);
+
                 }
             }
         }
@@ -88,7 +92,7 @@ public class PureWorldGenerator implements BaseWorldGenerator {
         for (Point3D emptyPoint : emptyPoints) {
             Oxygen oxygen = new Oxygen();
             oxygen.setCellCenter(emptyPoint);
-            oxygen.setWorldName(world.getName());
+            oxygen.setWorldName(cellWorld.getName());
             List<BaseGameEntity> list = map.get(emptyPoint.getZ()).get(emptyPoint.getX()).getOrDefault(emptyPoint.getY(), new ArrayList<>());
             list.add(oxygen);
             map.get(emptyPoint.getZ()).get(emptyPoint.getX()).put(emptyPoint.getY(), list);
@@ -135,11 +139,11 @@ public class PureWorldGenerator implements BaseWorldGenerator {
         log.info("-----------地图数组-----------");
 
 
-        return map;
+//        return map;
     }
 
     @Override
-    public Map<Long, Map<Long, Map<Long, WorldNode>>> generateWorldNode(World world) {
+    public Map<Long, Map<Long, Map<Long, WorldNode>>> generateWorldNode(CellWorld cellWorld) {
         Map<Long, Map<Long, Map<Long, WorldNode>>> worldNodeMap = new HashMap<>();
 
         for (long z = 0; z < height; z++) {

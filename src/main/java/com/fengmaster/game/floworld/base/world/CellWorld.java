@@ -3,6 +3,8 @@ package com.fengmaster.game.floworld.base.world;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.EntityWorldListener;
 import com.fengmaster.game.floworld.base.TimeCenter;
 import com.fengmaster.game.floworld.base.event.TickEvent;
 import com.fengmaster.game.floworld.base.event.WorldCreatedEvent;
@@ -12,6 +14,7 @@ import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +23,7 @@ import java.util.Map;
  * 世界对象
  */
 @Log
-public class World {
+public class CellWorld implements EntityWorldListener {
 
     @Getter
     private String name ;
@@ -45,13 +48,29 @@ public class World {
     private Map<Long,Map<Long,Map<Long, List<BaseGameEntity>>>> gameObjectMap =new HashMap<>();
 
 
-    public World(String name ,BaseWorldGenerator worldGenerator){
+    public CellWorld(String name , BaseWorldGenerator worldGenerator){
         this.name=name;
         TimeInterval timer = DateUtil.timer();
+        FXGL.getGameWorld().addWorldListener(this);
         log.info("开始生成地图");
         timer.start();
         worldNodeMap=worldGenerator.generateWorldNode(this);
-        gameObjectMap=worldGenerator.generateObj(this);
+
+
+        for (long z = 0; z < height; z++) {
+            gameObjectMap.put(z, new HashMap<>());
+            for (long x = 0; x < length; x++) {
+                gameObjectMap.get(z).put(x, new HashMap<>());
+
+                for (long y = 0; y < width; y++) {
+                    gameObjectMap.get(z).get(x).put(y, new ArrayList<>());
+
+                }
+
+            }
+        }
+
+        worldGenerator.generateObj(this);
 
         log.info("生成地图完毕，耗时"+timer.intervalSecond()+"秒");
 
@@ -71,11 +90,11 @@ public class World {
     }
 
 
-    public List<BaseGameEntity> getWorldObject(long x, long y, long z){
+    public List<BaseGameEntity> getWorldObjectByCell(long x, long y, long z){
         return gameObjectMap.get(z).get(x).get(y);
     }
 
-    public List<BaseGameEntity> getWorldObject(Point3D point3D){
+    public List<BaseGameEntity> getWorldObjectByCell(Point3D point3D){
         return gameObjectMap.get(point3D.getZ()).get(point3D.getX()).get(point3D.getY());
     }
 
@@ -85,10 +104,32 @@ public class World {
 
 
     public void addEntity(BaseGameEntity baseGameEntity){
-        gameObjectMap.get(baseGameEntity.getCellCenter().getZ())
-                .get(baseGameEntity.getCellCenter().getX())
-                .get(baseGameEntity.getCellCenter().getY())
-                .add(baseGameEntity);
+
     }
 
+    @Override
+    public void onEntityAdded(Entity entity) {
+        if (entity instanceof BaseGameEntity){
+            BaseGameEntity baseGameEntity= (BaseGameEntity) entity;
+            List<BaseGameEntity> list = gameObjectMap.get(baseGameEntity.getCellCenter().getZ() / 20)
+                    .get(baseGameEntity.getCellCenter().getX())
+                    .get(baseGameEntity.getCellCenter().getY());
+            if (!list.contains(baseGameEntity)){
+                list.add(baseGameEntity);
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onEntityRemoved(Entity entity) {
+        if (entity instanceof BaseGameEntity){
+            BaseGameEntity baseGameEntity= (BaseGameEntity) entity;
+            gameObjectMap.get(baseGameEntity.getCellCenter().getZ())
+                    .get(baseGameEntity.getCellCenter().getX())
+                    .get(baseGameEntity.getCellCenter().getY())
+                    .remove(baseGameEntity);
+        }
+    }
 }

@@ -1,7 +1,7 @@
 package com.fengmaster.game.floworld.base;
 
 import com.fengmaster.game.floworld.base.event.EventCenter;
-import com.fengmaster.game.floworld.base.world.World;
+import com.fengmaster.game.floworld.base.world.CellWorld;
 import com.fengmaster.game.floworld.base.world.gen.PureWorldGenerator;
 import lombok.Getter;
 
@@ -20,7 +20,7 @@ public class Game {
     @Getter
     private GameOption gameOption;
 
-    private Map<String, World> worldMap;
+    private Map<String, CellWorld> worldMap;
 
     @Getter
     private GameObjectCenter gameObjectCenter;
@@ -42,11 +42,11 @@ public class Game {
 
         gameObjectCenter=new GameObjectCenter();
 
-        World world=new World("main",new PureWorldGenerator());
-        worldMap.put(world.getName(),world);
+        CellWorld cellWorld =new CellWorld("main",new PureWorldGenerator());
+        worldMap.put(cellWorld.getName(), cellWorld);
     }
 
-    public World getWorld(String name){
+    public CellWorld getWorld(String name){
         return worldMap.get(name);
     }
 

@@ -1,7 +1,6 @@
 package com.fengmaster.game.floworld.base.obj.compoents.ability;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.lang.func.Func;
 import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.event.TickEvent;
@@ -12,17 +11,11 @@ import com.fengmaster.game.floworld.base.obj.entity.fluid.Oxygen;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import com.fengmaster.game.floworld.util.GameTimeUtil;
 import com.fengmaster.game.floworld.util.HeatUtil;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.functions.Function;
 import javafx.event.EventHandler;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.function.DoubleSupplier;
-import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 /**
  * 可燃的
@@ -105,7 +98,7 @@ public class Combustible extends BaseGameCompoent implements  EventHandler<TickE
                             .getWorldNode(physicsP.getCellCenter());
 
                     //检查是否可以增大火势
-                    List<BaseGameEntity> centerCellObjs = Game.getInstance().getWorld(physicsP.getWorldName()).getWorldObject(physicsP.getCellCenter());
+                    List<BaseGameEntity> centerCellObjs = Game.getInstance().getWorld(physicsP.getWorldName()).getWorldObjectByCell(physicsP.getCellCenter());
                     //氧气
                     List<Oxygen> oxygens = centerCellObjs.stream().filter(baseGameComponent -> baseGameComponent instanceof Oxygen)
                             .map(baseGameComponent -> (Oxygen) baseGameComponent).collect(Collectors.toList());

@@ -1,8 +1,7 @@
 package com.fengmaster.game.floworld.base.event;
 
-import com.fengmaster.game.floworld.base.world.World;
+import com.fengmaster.game.floworld.base.world.CellWorld;
 import javafx.event.EventType;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -14,11 +13,11 @@ public class WorldCreatedEvent extends BaseEvent{
 
 
     @Getter
-    private World world;
+    private CellWorld cellWorld;
 
 
-    public WorldCreatedEvent(World world) {
-        super(WORLD_CREATED_EVENT,world);
+    public WorldCreatedEvent(CellWorld cellWorld) {
+        super(WORLD_CREATED_EVENT, cellWorld);
 
     }
 }

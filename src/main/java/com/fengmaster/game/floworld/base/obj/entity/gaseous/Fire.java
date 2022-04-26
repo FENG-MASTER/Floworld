@@ -7,8 +7,8 @@ import com.fengmaster.game.floworld.base.obj.compoents.ability.Combustible;
 import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
 import com.fengmaster.game.floworld.base.obj.entity.fluid.Oxygen;
+import com.fengmaster.game.floworld.base.world.CellWorld;
 import com.fengmaster.game.floworld.base.world.Point3D;
-import com.fengmaster.game.floworld.base.world.World;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
 import com.fengmaster.game.floworld.base.Game;
 
@@ -16,8 +16,6 @@ import com.fengmaster.game.floworld.util.CellUtil;
 import com.fengmaster.game.floworld.util.GameTimeUtil;
 import javafx.event.EventHandler;
 import lombok.Getter;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,21 +73,21 @@ public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
             //开始扩撒,向四周6个格子扩散，生成小火种
 
             Point3D[] nearbyPoint = CellUtil.getNearbyPoint(getCellCenter());
-            World world = Game.getInstance().getWorld(getWorldName());
+            CellWorld cellWorld = Game.getInstance().getWorld(getWorldName());
             for (Point3D np : nearbyPoint) {
-                if (!CellUtil.mapContain(np,world.getLength(),world.getWidth(),world.getHeight())){
+                if (!CellUtil.mapContain(np, cellWorld.getLength(), cellWorld.getWidth(), cellWorld.getHeight())){
                     continue;
                 }
                 PhysicsEntity fire = new Fire(RandomUtil.randomInt(100));
                 fire.setCellCenter(np);
                 fire.setWorldName(this.getWorldName());
-                world.addEntity(fire);
+                FXGL.getGameWorld().addEntity(fire);
             }
             spread=0;
 
         }else {
             //检查是否可以增大火势
-            List<BaseGameEntity> centerCellObjs = Game.getInstance().getWorld(getWorldName()).getWorldObject(getCellCenter());
+            List<BaseGameEntity> centerCellObjs = Game.getInstance().getWorld(getWorldName()).getWorldObjectByCell(getCellCenter());
             //氧气
             List<Oxygen> oxygens = centerCellObjs.stream().filter(baseGameComponent -> baseGameComponent instanceof Oxygen)
                     .map(baseGameComponent -> (Oxygen) baseGameComponent).collect(Collectors.toList());

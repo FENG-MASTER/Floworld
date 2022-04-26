@@ -1,5 +1,6 @@
 package com.fengmaster.game.floworld.base.obj.entity;
 
+import cn.hutool.core.convert.Convert;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
@@ -35,25 +36,19 @@ public class BaseGameEntity extends Entity implements ComponentListener {
     private Map<String, List<BaseGameEntity>> components;
 
 
-
-
-
-    public BaseGameEntity(){
-        uuid=UUID.randomUUID().toString();
-        components=new HashMap<>();
+    public BaseGameEntity() {
+        uuid = UUID.randomUUID().toString();
+        components = new HashMap<>();
         Game.getInstance().getGameObjectCenter().addObject(this);
         this.addComponentListener(this);
 
-        relativeBody=new Point3D[1];
-        relativeBody[0]=new Point3D(0,0,0);
+        relativeBody = new Point3D[1];
+        relativeBody[0] = new Point3D(0, 0, 0);
     }
 
     public void tick(long tick) {
 
     }
-
-
-
 
 
     public String getName() {
@@ -73,8 +68,8 @@ public class BaseGameEntity extends Entity implements ComponentListener {
 
     @Override
     public void onAdded(Component component) {
-        if (component instanceof BaseGameCompoent){
-            ((BaseGameCompoent)component).setParentGameEntity(this);
+        if (component instanceof BaseGameCompoent) {
+            ((BaseGameCompoent) component).setParentGameEntity(this);
         }
     }
 
@@ -83,11 +78,6 @@ public class BaseGameEntity extends Entity implements ComponentListener {
 
     }
 
-    /**
-     * 位置
-     */
-    @Getter
-    private Point3D cellCenter;
 
     /**
      * 身体结构
@@ -129,36 +119,42 @@ public class BaseGameEntity extends Entity implements ComponentListener {
     private boolean ignoreGravityEffect;
 
 
-
     /**
      * 比热容 是指没有相变化和化学变化时，1kg均相物质温度升高1K所需的热量
-     *
+     * <p>
      * 默认是水的比热容
      */
     @Getter
-    private int specificHeatCapacity=4200;
+    private int specificHeatCapacity = 4200;
 
 
     /**
      * 密度 kg/m3
+     *
      * @return
      */
-    public double getDensity(){
-        if (volume==0){
+    public double getDensity() {
+        if (volume == 0) {
             return 0;
         }
-        return mass/volume;
+        return mass / volume;
     }
 
+    public Point3D getCellCenter() {
+        return new Point3D((long)(getPosition3D().getX()/20)
+                ,(long)(getPosition3D().getY()/20)
+                ,(long)(getPosition3D().getZ()/20));
+    }
 
     public void setCellCenter(Point3D cellCenter) {
-        this.cellCenter = cellCenter;
-        this.setPosition3D(Game.getInstance().getGameOption().getCellSize()* cellCenter.getX(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getY(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getZ());
+        this.setPosition3D(Game.getInstance().getGameOption().getCellSize() * cellCenter.getX(), Game.getInstance().getGameOption().getCellSize() * cellCenter.getY(), Game.getInstance().getGameOption().getCellSize() * cellCenter.getZ());
         this.setZIndex(Math.toIntExact(cellCenter.getZ()));
         //        this.setPosition(Game.getInstance().getGameOption().getCellSize()* cellCenter.getX(),Game.getInstance().getGameOption().getCellSize()* cellCenter.getY());
     }
 
-    public void setTexture(String texture){
-        this.getViewComponent().addChild(FXGL.getAssetLoader().loadTexture(texture,20,20));
+    public void setTexture(String texture) {
+        this.getViewComponent().addChild(FXGL.getAssetLoader().loadTexture(texture, 20, 20));
     }
+
+
 }

@@ -16,8 +16,6 @@ public class GameObjectCenter {
 
     public void addObject(BaseGameEntity baseGameEntity){
         uuid2ObjectMap.put(baseGameEntity.getUuid(), baseGameEntity);
-        FXGL.getGameWorld().addEntity(baseGameEntity);
-
     }
 
     public void removeObject(String uuid){

@@ -3,7 +3,6 @@ package com.fengmaster.game.floworld.base.obj.entity;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.Game;
-import com.fengmaster.game.floworld.base.world.Point3D;
 import com.fengmaster.game.floworld.base.world.Vector3D;
 import lombok.Getter;
 import lombok.Setter;
