@@ -7,6 +7,7 @@ import com.fengmaster.game.floworld.base.obj.compoents.ability.Combustible;
 import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import com.fengmaster.game.floworld.base.obj.entity.PhysicsEntity;
 import com.fengmaster.game.floworld.base.obj.entity.fluid.Oxygen;
+import com.fengmaster.game.floworld.base.obj.factory.BaseSpawnData;
 import com.fengmaster.game.floworld.base.world.CellWorld;
 import com.fengmaster.game.floworld.base.world.Point3D;
 import com.fengmaster.game.floworld.base.world.node.WorldNode;
@@ -18,6 +19,7 @@ import javafx.event.EventHandler;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -45,9 +47,12 @@ public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
     @Getter
     private double spread;
 
-    public Fire(int duration) {
+
+
+    public Fire(BaseSpawnData baseSpawnData) {
+        super(baseSpawnData);
         //小火焰
-        this.duration=duration;
+        this.duration= (int) baseSpawnData.getData().getOrDefault("duration",300);
         this.timeLeft=duration;
         this.setName("Fire");
         this.setVolume(0.001);
@@ -78,10 +83,12 @@ public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
                 if (!CellUtil.mapContain(np, cellWorld.getLength(), cellWorld.getWidth(), cellWorld.getHeight())){
                     continue;
                 }
-                PhysicsEntity fire = new Fire(RandomUtil.randomInt(100));
-                fire.setCellCenter(np);
-                fire.setWorldName(this.getWorldName());
-                FXGL.getGameWorld().addEntity(fire);
+                BaseSpawnData baseSpawnData = new BaseSpawnData();
+                baseSpawnData.put("duration",RandomUtil.randomInt(100));
+                baseSpawnData.setCellPosition(np);
+                baseSpawnData.setWorldName(this.getWorldName());
+                FXGL.getGameWorld().spawn("Fire",baseSpawnData);
+
             }
             spread=0;
 
@@ -100,7 +107,7 @@ public class Fire extends PhysicsEntity implements EventHandler<TickEvent> {
                     if(combustible.isBurning()){
                         //可燃物已经点燃的逻辑代码在可燃物里视线
                         return;
-                    }else if(combustible.getBurnPoint()<worldNode.getTemperature()) {
+                    }else if(combustible.getBurnPoint()<worldNode.getTemperature()&&oxygens.stream().mapToDouble(BaseGameEntity::getVolume).sum()>0) {
                             //没有点着，但是温度已经达到燃点
                             combustible.burn();
                     }

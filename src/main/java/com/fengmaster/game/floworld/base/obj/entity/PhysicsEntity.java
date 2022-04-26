@@ -3,6 +3,7 @@ package com.fengmaster.game.floworld.base.obj.entity;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.fengmaster.game.floworld.base.Game;
+import com.fengmaster.game.floworld.base.obj.factory.BaseSpawnData;
 import com.fengmaster.game.floworld.base.world.Vector3D;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,9 @@ import lombok.Setter;
  * 物理对象
  */
 public class PhysicsEntity extends BaseGameEntity {
+    public PhysicsEntity(BaseSpawnData baseSpawnData) {
+        super(baseSpawnData);
+    }
 
 //    /**
 //     * 位置

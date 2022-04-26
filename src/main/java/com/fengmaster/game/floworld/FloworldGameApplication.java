@@ -1,5 +1,8 @@
 package com.fengmaster.game.floworld;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ClassLoaderUtil;
+import cn.hutool.core.util.ClassUtil;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
@@ -7,16 +10,15 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
-import com.fengmaster.game.floworld.base.obj.factory.CobbleFactory;
-import com.fengmaster.game.floworld.base.obj.factory.FireFactory;
-import com.fengmaster.game.floworld.base.obj.factory.GrassFactory;
-import com.fengmaster.game.floworld.base.obj.factory.SoilFactory;
+import com.fengmaster.game.floworld.base.obj.factory.*;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import lombok.extern.java.Log;
+
+import java.util.Set;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -47,10 +49,15 @@ public class FloworldGameApplication extends GameApplication {
 
     @Override
     protected void initGame() {
-        FXGL.getGameWorld().addEntityFactory(new GrassFactory());
-        FXGL.getGameWorld().addEntityFactory(new CobbleFactory());
-        FXGL.getGameWorld().addEntityFactory(new SoilFactory());
-        FXGL.getGameWorld().addEntityFactory(new FireFactory());
+
+        //自动加载类生成生成器
+        Set convert =  ClassUtil.scanPackageBySuper("com.fengmaster.game.floworld.base.obj.entity", BaseGameEntity.class);
+        Set<Class<BaseGameEntity>> classes =convert;
+
+        for (Class<BaseGameEntity> aClass : classes) {
+            FXGL.getGameWorld().addEntityFactory(new GeneralEntitySpawnFactory(aClass));
+        }
+
 
         Game.getInstance().init();
         worldName = "main";

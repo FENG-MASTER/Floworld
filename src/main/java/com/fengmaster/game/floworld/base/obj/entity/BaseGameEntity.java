@@ -7,6 +7,7 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.entity.component.ComponentListener;
 import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.obj.compoents.BaseGameCompoent;
+import com.fengmaster.game.floworld.base.obj.factory.BaseSpawnData;
 import com.fengmaster.game.floworld.base.world.Point3D;
 import com.fengmaster.game.floworld.base.world.Vector3D;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.*;
 /**
  * 游戏对象基类
  */
-public class BaseGameEntity extends Entity implements ComponentListener {
+public abstract class BaseGameEntity extends Entity implements ComponentListener {
 
     @Getter
     @Deprecated
@@ -36,7 +37,9 @@ public class BaseGameEntity extends Entity implements ComponentListener {
     private Map<String, List<BaseGameEntity>> components;
 
 
-    public BaseGameEntity() {
+
+
+    public BaseGameEntity(BaseSpawnData baseSpawnData){
         uuid = UUID.randomUUID().toString();
         components = new HashMap<>();
         Game.getInstance().getGameObjectCenter().addObject(this);
@@ -44,7 +47,10 @@ public class BaseGameEntity extends Entity implements ComponentListener {
 
         relativeBody = new Point3D[1];
         relativeBody[0] = new Point3D(0, 0, 0);
+
     }
+
+
 
     public void tick(long tick) {
 

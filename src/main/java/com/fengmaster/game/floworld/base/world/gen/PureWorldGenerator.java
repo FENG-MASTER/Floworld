@@ -62,20 +62,20 @@ public class PureWorldGenerator implements BaseWorldGenerator {
 
 
                 if (RandomUtil.getRandom().nextInt(10) > 7) {
-                    FXGL.getGameWorld().spawn("grass",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
+                    FXGL.getGameWorld().spawn("Grass",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
                 } else {
-                    FXGL.getGameWorld().spawn("soil",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
+                    FXGL.getGameWorld().spawn("Soil",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
                 }
                 emptyPoints.remove(new Point3D(x, y, 0));
 
 
                 if (RandomUtil.getRandom().nextInt(100) > 96) {
-                    FXGL.getGameWorld().spawn("cobble",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
+                    FXGL.getGameWorld().spawn("Cobble",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
 
                 }
 
                 if (RandomUtil.getRandom().nextInt(100) > 96) {
-                    FXGL.getGameWorld().spawn("fire",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
+                    FXGL.getGameWorld().spawn("Fire",new BaseSpawnData().setWorldName(cellWorld.getName()).setCellPosition(new Point3D(x,y,0)));
 
 
                 }

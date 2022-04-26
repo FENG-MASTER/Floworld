@@ -120,6 +120,9 @@ public class Combustible extends BaseGameCompoent implements  EventHandler<TickE
                     //FIXME 每个格子1立方空气
                     worldNode.addTemperature(HeatUtil.heatDissipation2AirTemperatureRise(heat,1.29f));
 
+                    // TODO 消耗氧气
+
+
                 }
             }else {
                 //烧完了，游戏物体销毁
