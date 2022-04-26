@@ -103,10 +103,6 @@ public class CellWorld implements EntityWorldListener {
     }
 
 
-    public void addEntity(BaseGameEntity baseGameEntity){
-
-    }
-
     @Override
     public void onEntityAdded(Entity entity) {
         if (entity instanceof BaseGameEntity){

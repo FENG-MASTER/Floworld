@@ -6,6 +6,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.fengmaster.game.floworld.base.Game;
+import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -63,7 +64,16 @@ public class FloworldGameApplication extends GameApplication {
             protected void onActionEnd() {
                 currentZ+=1;
                 for (Entity entity1 : getGameWorld().getEntities()) {
-                        entity1.setVisible(!((entity1.getZ()/20)>=currentZ));
+                    boolean v = !((entity1.getZ() / 20) >= currentZ);
+                    entity1.setVisible(v);
+                    if (v){
+                        if (entity1 instanceof BaseGameEntity){
+                            BaseGameEntity b= (BaseGameEntity) entity1;
+                            entity1.getViewComponent().setOpacity( Math.pow(0.8f,currentZ-b.getCellCenter().getZ()));
+
+
+                        }
+                    }
                 }
         log.info("z:"+currentZ);
 
@@ -75,7 +85,17 @@ public class FloworldGameApplication extends GameApplication {
             protected void onActionEnd() {
                 currentZ-=1;
                 for (Entity entity1 : getGameWorld().getEntities()) {
-                    entity1.setVisible(!((entity1.getZ()/20)>=currentZ));
+                    boolean v = !((entity1.getZ() / 20) >= currentZ);
+                    entity1.setVisible(v);
+                    if (v){
+                        if (entity1 instanceof BaseGameEntity){
+                            BaseGameEntity b= (BaseGameEntity) entity1;
+                            entity1.getViewComponent().setOpacity(Math.pow(0.8f,currentZ-b.getCellCenter().getZ()));
+
+
+                        }
+                    }
+
                 }
                     log.info("z:"+currentZ);
 
