@@ -8,6 +8,7 @@ import com.almasb.fxgl.input.UserAction;
 import com.fengmaster.game.floworld.base.Game;
 import com.fengmaster.game.floworld.base.obj.entity.BaseGameEntity;
 import com.fengmaster.game.floworld.base.obj.factory.CobbleFactory;
+import com.fengmaster.game.floworld.base.obj.factory.FireFactory;
 import com.fengmaster.game.floworld.base.obj.factory.GrassFactory;
 import com.fengmaster.game.floworld.base.obj.factory.SoilFactory;
 import javafx.event.Event;
@@ -49,6 +50,7 @@ public class FloworldGameApplication extends GameApplication {
         FXGL.getGameWorld().addEntityFactory(new GrassFactory());
         FXGL.getGameWorld().addEntityFactory(new CobbleFactory());
         FXGL.getGameWorld().addEntityFactory(new SoilFactory());
+        FXGL.getGameWorld().addEntityFactory(new FireFactory());
 
         Game.getInstance().init();
         worldName = "main";
